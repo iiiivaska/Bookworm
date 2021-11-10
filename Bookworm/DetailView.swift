@@ -63,6 +63,7 @@ struct DetailView: View {
     func deleteBook() {
         moc.delete(book)
         
+        try? self.moc.save()
         presentationMode.wrappedValue.dismiss()
     }
 }
