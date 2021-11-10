@@ -11,6 +11,10 @@ import CoreData
 struct DetailView: View {
     let book: Book
     
+    @Environment(\.managedObjectContext) var moc
+    @Environment(\.presentationMode) var presentationMode
+    @State private var showingDeleteAlert = false
+    
     var body: some View {
         GeometryReader { geometry in
             VStack {
@@ -41,8 +45,25 @@ struct DetailView: View {
                 Spacer()
             }
         }
+        .alert(isPresented: $showingDeleteAlert){
+            Alert(title: Text("Delete book"), message: Text("Are you sure?"), primaryButton: .destructive(Text("Delete")) {
+                self.deleteBook()
+            }, secondaryButton: .cancel()
+            )
+        }
         .navigationTitle(book.title ?? "Unknown Book")
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarItems(trailing: Button(action: {
+            self.showingDeleteAlert = true
+        }) {
+            Image(systemName: "trash")
+        })
+    }
+    
+    func deleteBook() {
+        moc.delete(book)
+        
+        presentationMode.wrappedValue.dismiss()
     }
 }
 
