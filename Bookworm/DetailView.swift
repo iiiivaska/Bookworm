@@ -22,14 +22,27 @@ struct DetailView: View {
                     Image(self.book.genre ?? "Fantasy")
                         .frame(maxWidth: geometry.size.width)
                     
-                    Text(self.book.genre?.uppercased() ?? "FANTASY")
-                        .font(.caption)
-                        .fontWeight(.black)
-                        .padding(8)
-                        .foregroundColor(.white)
-                        .background(Color.black.opacity(0.75))
-                        .clipShape(Capsule())
-                        .offset(x: -5, y: -5)
+                    HStack {
+                        Text(self.book.genre?.uppercased() ?? "FANTASY")
+                            .font(.caption)
+                            .fontWeight(.black)
+                            .padding(8)
+                            .foregroundColor(.white)
+                            .background(Color.black.opacity(0.75))
+                            .clipShape(Capsule())
+                            .offset(x: 5, y: -5)
+                        
+                        Spacer()
+                        
+                        Text(self.book.date ?? Date(), style: .date)
+                            .font(.caption)
+                            .fontWeight(.black)
+                            .padding(8)
+                            .foregroundColor(.white)
+                            .background(Color.black.opacity(0.75))
+                            .clipShape(Capsule())
+                            .offset(x: -5, y: -5)
+                    }
                 }
                 
                 Text(self.book.author ?? "Unknown author")
@@ -66,6 +79,12 @@ struct DetailView: View {
         try? self.moc.save()
         presentationMode.wrappedValue.dismiss()
     }
+    
+//    func getBookDate() -> String {
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "dd-MM-yyyy"
+//        let
+//    }
 }
 
 struct DetailView_Previews: PreviewProvider {
